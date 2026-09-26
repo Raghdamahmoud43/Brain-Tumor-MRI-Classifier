@@ -1,0 +1,111 @@
+{
+  "model_name": "Brain Tumor MRI Classifier",
+  "model_file": "best_model.keras",
+  "model_format": "Keras",
+  "architecture": {
+    "base_model": "MobileNetV2",
+    "pretrained_weights": "ImageNet",
+    "custom_head": [
+      "GlobalAveragePooling2D",
+      "Dense(256, relu)",
+      "Dropout(0.4)",
+      "Dense(4, softmax)"
+    ]
+  },
+  "task": "4-class brain MRI image classification",
+  "classes": [
+    "glioma",
+    "meningioma",
+    "notumor",
+    "pituitary"
+  ],
+  "input": {
+    "image_size": [
+      224,
+      224
+    ],
+    "channels": 3,
+    "color_format": "RGB",
+    "preprocessing": "MobileNetV2 preprocess_input"
+  },
+  "training": {
+    "batch_size": 32,
+    "maximum_epochs": 15,
+    "validation_split": 0.2,
+    "seed": 42,
+    "optimizer": "Adam",
+    "learning_rate": 0.001,
+    "loss": "sparse_categorical_crossentropy",
+    "metric": "accuracy",
+    "augmentation": {
+      "horizontal_flip": true,
+      "rotation": 0.08,
+      "zoom": 0.08
+    },
+    "early_stopping": true,
+    "reduce_lr_on_plateau": true,
+    "best_model_checkpoint": "best_model.keras"
+  },
+  "dataset": {
+    "training_images": 5600,
+    "testing_images": 1600,
+    "images_per_class_training": 1400,
+    "images_per_class_testing": 400
+  },
+  "evaluation": {
+    "test_accuracy": 0.84375,
+    "test_loss": 0.5113965272903442,
+    "classification_report": {
+      "glioma": {
+        "precision": 0.92,
+        "recall": 0.69,
+        "f1_score": 0.79
+      },
+      "meningioma": {
+        "precision": 0.77,
+        "recall": 0.71,
+        "f1_score": 0.74
+      },
+      "notumor": {
+        "precision": 0.9,
+        "recall": 0.98,
+        "f1_score": 0.94
+      },
+      "pituitary": {
+        "precision": 0.81,
+        "recall": 0.99,
+        "f1_score": 0.89
+      }
+    },
+    "confusion_matrix": [
+      [
+        275,
+        79,
+        24,
+        22
+      ],
+      [
+        22,
+        283,
+        22,
+        73
+      ],
+      [
+        1,
+        4,
+        394,
+        1
+      ],
+      [
+        2,
+        0,
+        0,
+        398
+      ]
+    ]
+  },
+  "model_file_size_bytes": 13590106,
+  "intended_use": "Educational, research, and portfolio purposes only.",
+  "medical_disclaimer": "Not a medical device and not intended for standalone diagnosis, treatment, or clinical decision-making.",
+  "limitations": "Performance may vary on data from different hospitals, scanners, acquisition protocols, patient populations, and preprocessing pipelines."
+}
